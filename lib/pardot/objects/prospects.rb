@@ -29,7 +29,11 @@ module Pardot
         def assign_by_fid fid, params
           post "/do/assign/fid/#{fid}", params
         end
-        
+
+        def batch_update params = {}
+          post '/do/batchUpdate', params
+        end
+
         def create email, params = {}
           post "/do/create/email/#{email}", params
         end
@@ -77,7 +81,7 @@ module Pardot
         def update_by_fid fid, params = {}
           post "/do/update/fid/#{fid}", params
         end
-        
+
         def upsert_by_email email, params = {}
           post "/do/upsert/email/#{email}", params
         end
