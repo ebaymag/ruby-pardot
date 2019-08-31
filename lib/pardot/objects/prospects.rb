@@ -31,7 +31,7 @@ module Pardot
         end
 
         def batch_update params = {}
-          post '/do/batchUpdate', params
+          post '/do/batchUpdate', params, nil
         end
 
         def create email, params = {}
