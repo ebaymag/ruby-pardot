@@ -34,6 +34,10 @@ module Pardot
           post '/do/batchUpdate', params, nil
         end
 
+        def batch_upsert params = {}
+          post '/do/batchUpsert', params, nil
+        end
+
         def create email, params = {}
           post "/do/create/email/#{email}", params
         end
