@@ -29,7 +29,7 @@ describe Pardot::Objects::Opportunities do
     end
     
     it "should take in some arguments" do
-      fake_get "/api/opportunity/version/3/do/query?api_key=my_api_key&id_greater_than=200&format=simple&user_key=bar", sample_results
+      fake_get "/api/opportunity/version/3/do/query?id_greater_than=200&format=simple", sample_results
       
       @client.opportunities.query(:id_greater_than => 200).should == {"total_results" => 2, 
         "opportunity"=>[
@@ -53,7 +53,7 @@ describe Pardot::Objects::Opportunities do
     end
     
     it "should return the prospect" do
-      fake_post "/api/opportunity/version/3/do/create/prospect_email/user@test.com?type=Good&api_key=my_api_key&user_key=bar&format=simple&name=Jim", sample_results
+      fake_post "/api/opportunity/version/3/do/create/prospect_email/user@test.com?type=Good&format=simple&name=Jim", sample_results
       
       @client.opportunities.create_by_email("user@test.com", :name => "Jim", :type => "Good").should == {"name"=>"Jim", "type"=>"Good"}
       

@@ -24,7 +24,7 @@ describe Pardot::Objects::ProspectAccounts do
     end
 
     it "should take in some arguments and respond with valid items" do
-      fake_get "/api/prospectAccount/version/3/do/query?assigned=true&format=simple&user_key=bar&api_key=my_api_key", sample_results
+      fake_get "/api/prospectAccount/version/3/do/query?assigned=true&format=simple", sample_results
 
       @client.prospect_accounts.query(:assigned => true).should == {'total_results' => 2,
         'prospectAccount'=>[
@@ -47,7 +47,7 @@ describe Pardot::Objects::ProspectAccounts do
     end
 
     it 'should return a valid account' do
-      fake_post '/api/prospectAccount/version/3/do/read/id/1234?assigned=true&format=simple&user_key=bar&api_key=my_api_key', sample_results
+      fake_post '/api/prospectAccount/version/3/do/read/id/1234?assigned=true&format=simple', sample_results
 
       @client.prospect_accounts.read('1234', :assigned => true).should == {'id' => '1234', 'name' => 'SupaDupaPanda' }
     end
@@ -67,7 +67,7 @@ describe Pardot::Objects::ProspectAccounts do
     end
 
     it 'should return the prospect account' do
-      fake_post '/api/prospectAccount/version/3/do/create?api_key=my_api_key&user_key=bar&format=simple&name=SuperPanda', sample_results
+      fake_post '/api/prospectAccount/version/3/do/create?format=simple&name=SuperPanda', sample_results
 
       @client.prospect_accounts.create(:name => 'SuperPanda').should == {"name"=>"SuperPanda"}
 

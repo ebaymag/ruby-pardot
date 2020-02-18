@@ -4,7 +4,7 @@ module Pardot
     def get object, path, params = {}, num_retries = 0
       smooth_params object, params
       full_path = fullpath object, path
-      check_response self.class.get(full_path, :query => params)
+      check_response self.class.get(full_path, :query => params, :headers => auth_headers)
       
     rescue Pardot::ExpiredApiKeyError => e
       handle_expired_api_key :get, object, path, params, num_retries, e
@@ -16,7 +16,7 @@ module Pardot
     def post object, path, params = {}, num_retries = 0, bodyParams = {}
       smooth_params object, params
       full_path = fullpath object, path
-      check_response self.class.post(full_path, :query => params, :body => bodyParams)
+      check_response self.class.post(full_path, :query => params, :body => bodyParams, :headers => auth_headers)
       
     rescue Pardot::ExpiredApiKeyError => e
       handle_expired_api_key :post, object, path, params, num_retries, e
@@ -34,12 +34,16 @@ module Pardot
       
       send(method, object, path, params, 1)
     end
+
+    def auth_headers
+      { Authorization: "Pardot api_key=#{@api_key}, user_key=#{@user_key}" }
+    end
     
     def smooth_params object, params
       return if object == "login"
       
       authenticate unless authenticated?
-      params.merge! :user_key => @user_key, :api_key => @api_key, :format => @format
+      params.merge! :format => @format
     end
     
     def check_response http_response

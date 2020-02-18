@@ -18,7 +18,7 @@ describe Pardot::Http do
     end
     
     it "should notice errors and raise them as Pardot::ResponseError" do
-      fake_get "/api/foo/version/3/bar?api_key=my_api_key&format=simple&user_key=bar",
+      fake_get "/api/foo/version/3/bar?format=simple",
                %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="15">Login failed</err>\n</rsp>\n)
       
       lambda { get }.should raise_error(Pardot::ResponseError)
@@ -31,7 +31,7 @@ describe Pardot::Http do
     end
     
     it "should call handle_expired_api_key when the api key expires" do
-      fake_get "/api/foo/version/3/bar?api_key=my_api_key&format=simple&user_key=bar",
+      fake_get "/api/foo/version/3/bar?format=simple",
                %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="15">Invalid API key or user key</err>\n</rsp>\n)
       
       @client.should_receive(:handle_expired_api_key)
@@ -47,7 +47,7 @@ describe Pardot::Http do
     end
     
     it "should notice errors and raise them as Pardot::ResponseError" do
-      fake_post "/api/foo/version/3/bar?api_key=my_api_key&format=simple&user_key=bar",
+      fake_post "/api/foo/version/3/bar?format=simple",
                 %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="15">Login failed</err>\n</rsp>\n)
       
       lambda { post }.should raise_error(Pardot::ResponseError)
@@ -55,12 +55,12 @@ describe Pardot::Http do
     
     it "should catch and reraise SocketErrors as Pardot::NetError" do
       Pardot::Client.should_receive(:post).and_raise(SocketError)
-      
+
       lambda { post }.should raise_error(Pardot::NetError)
     end
     
     it "should call handle_expired_api_key when the api key expires" do
-      fake_post "/api/foo/version/3/bar?api_key=my_api_key&format=simple&user_key=bar",
+      fake_post "/api/foo/version/3/bar?format=simple",
                 %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="15">Invalid API key or user key</err>\n</rsp>\n)
       
       @client.should_receive(:handle_expired_api_key)
@@ -77,7 +77,7 @@ describe Pardot::Http do
     end
     
     it "should notice errors and raise them as Pardot::ResponseError" do
-      fake_get "/api/foo/version/4/bar?api_key=my_api_key&format=simple&user_key=bar",
+      fake_get "/api/foo/version/4/bar?format=simple",
                %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="15">Login failed</err>\n</rsp>\n)
       
       lambda { get }.should raise_error(Pardot::ResponseError)
@@ -90,7 +90,7 @@ describe Pardot::Http do
     end
     
     it "should call handle_expired_api_key when the api key expires" do
-      fake_get "/api/foo/version/4/bar?api_key=my_api_key&format=simple&user_key=bar",
+      fake_get "/api/foo/version/4/bar?format=simple",
                %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="15">Invalid API key or user key</err>\n</rsp>\n)
       
       @client.should_receive(:handle_expired_api_key)
@@ -107,7 +107,7 @@ describe Pardot::Http do
     end
     
     it "should notice errors and raise them as Pardot::ResponseError" do
-      fake_post "/api/foo/version/4/bar?api_key=my_api_key&format=simple&user_key=bar",
+      fake_post "/api/foo/version/4/bar?format=simple",
                 %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="15">Login failed</err>\n</rsp>\n)
       
       lambda { post }.should raise_error(Pardot::ResponseError)
@@ -120,7 +120,7 @@ describe Pardot::Http do
     end
     
     it "should call handle_expired_api_key when the api key expires" do
-      fake_post "/api/foo/version/4/bar?api_key=my_api_key&format=simple&user_key=bar",
+      fake_post "/api/foo/version/4/bar?format=simple",
                 %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="15">Invalid API key or user key</err>\n</rsp>\n)
       
       @client.should_receive(:handle_expired_api_key)

@@ -29,7 +29,7 @@ describe Pardot::Objects::Users do
     end
     
     it "should take in some arguments" do
-      fake_get "/api/user/version/3/do/query?api_key=my_api_key&user_key=bar&id_greater_than=200&format=simple", sample_results
+      fake_get "/api/user/version/3/do/query?id_greater_than=200&format=simple", sample_results
       
       @client.users.query(:id_greater_than => 200).should == {"total_results" => 2, 
         "user"=>[
@@ -53,7 +53,7 @@ describe Pardot::Objects::Users do
     end
     
     it "should return the prospect" do
-      fake_post "/api/user/version/3/do/read/email/user@test.com?api_key=my_api_key&user_key=bar&format=simple", sample_results
+      fake_post "/api/user/version/3/do/read/email/user@test.com?format=simple", sample_results
       
       @client.users.read_by_email("user@test.com").should == {"email"=>"user@example.com", "first_name"=>"Sue"}
       
