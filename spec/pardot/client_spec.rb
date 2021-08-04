@@ -1,28 +1,23 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Pardot::Client do
-  
-  def create_client
-    @client = Pardot::Client.new "user@test.com", "foo", "bar"
-  end
-  
   describe "client" do
     after do
-      @client.email.should == "user@test.com"
+      @client.client_id.should == "client_id"
+      @client.client_secret.should == "client_secret"
+      @client.username.should == "username"
       @client.password.should == "password"
-      @client.user_key.should == "user_key"
-      @client.format.should == "simple"
+      @client.business_unit_id.should == "business_unit_id"
     end
 
     it "should set variables without version" do
-      @client = Pardot::Client.new "user@test.com", "password", "user_key"
+      @client = Pardot::Client.new "client_id", "client_secret", "username", "password", "business_unit_id"
       @client.version.should == 3
     end
     
     it "should set variables with version" do
-      @client = Pardot::Client.new "user@test.com", "password", "user_key", 4
+      @client = Pardot::Client.new "client_id", "client_secret", "username", "password", "business_unit_id", 4
       @client.version.should == 4
     end
-
   end
 end
