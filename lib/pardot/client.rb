@@ -20,12 +20,14 @@ module Pardot
     include Objects::Visits
     include Objects::VisitorActivities
 
-    attr_accessor :email, :password, :user_key, :api_key, :version, :format
+    attr_accessor :access_token, :client_id, :client_secret, :username, :password, :business_unit_id, :version, :format
 
-    def initialize email, password, user_key, version = 3
-      @email = email
+    def initialize client_id, client_secret, username, password, business_unit_id, version = 3
+      @client_id = client_id
+      @client_secret = client_secret
+      @username = username
       @password = password
-      @user_key = user_key
+      @business_unit_id = business_unit_id
       @version = version
 
       @format = "simple"

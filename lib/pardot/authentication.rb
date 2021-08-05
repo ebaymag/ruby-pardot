@@ -1,22 +1,34 @@
 module Pardot
   module Authentication
-    
+    AUTH_URL = "https://login.salesforce.com/services/oauth2/token".freeze
+
     def authenticate
-      resp = post "login", nil, nil, nil, :email => @email, :password => @password, :user_key => @user_key
+      resp = HTTParty.post(AUTH_URL, body: auth_params)
+
       update_version(resp["version"]) if resp && resp["version"]
-      @api_key = resp && resp["api_key"]
+      @access_token = resp && resp["access_token"]
     end
     
     def authenticated?
-      @api_key != nil
+      @access_token != nil
     end
     
     def reauthenticate
-      @api_key = nil
+      @access_token = nil
       authenticate
     end
 
     private
+
+    def auth_params
+      {
+        grant_type: "password",
+        client_id: @client_id,
+        client_secret: @client_secret,
+        username: @username,
+        password: @password,
+      }
+    end
 
     def update_version version
       if version.is_a? Array
