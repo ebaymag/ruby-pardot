@@ -2,6 +2,7 @@ module Pardot
   class Error < StandardError; end
   class NetError < Error; end
   class AccessTokenExpiredError < Error; end
+  class ExceededRequestLimitError < Error; end
 
   class ResponseError < Error
     def initialize(res)

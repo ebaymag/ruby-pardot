@@ -29,7 +29,13 @@ describe Pardot::Http do
       
       lambda { get }.should raise_error(Pardot::NetError)
     end
-    
+
+    it "should raise ExceededRequestLimitError" do
+      fake_get "/api/foo/version/3/bar?format=simple",
+               %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="66">You have exceeded your concurrent request limit. Please wait, before trying again</err>\n</rsp>\n)
+
+      lambda { get }.should raise_error(Pardot::ExceededRequestLimitError)
+    end
   end
   
   describe "post" do
@@ -58,7 +64,13 @@ describe Pardot::Http do
       @client.should_receive(:handle_expired_access_token)
       post
     end
-    
+
+    it "should raise ExceededRequestLimitError" do
+      fake_post "/api/foo/version/3/bar?format=simple",
+                %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="66">You have exceeded your concurrent request limit. Please wait, before trying again</err>\n</rsp>\n)
+
+      lambda { post }.should raise_error(Pardot::ExceededRequestLimitError)
+    end
   end
 
   describe "getV4" do
@@ -89,6 +101,12 @@ describe Pardot::Http do
       get
     end
 
+    it "should raise ExceededRequestLimitError" do
+      fake_get "/api/foo/version/4/bar?format=simple",
+                %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="66">You have exceeded your concurrent request limit. Please wait, before trying again</err>\n</rsp>\n)
+
+      lambda { get }.should raise_error(Pardot::ExceededRequestLimitError)
+    end
   end
 
   describe "postV4" do
@@ -117,6 +135,13 @@ describe Pardot::Http do
 
       @client.should_receive(:handle_expired_access_token)
       post
+    end
+
+    it "should raise ExceededRequestLimitError" do
+      fake_post "/api/foo/version/4/bar?format=simple",
+                %(?xml version="1.0" encoding="UTF-8"?>\n<rsp stat="fail" version="1.0">\n   <err code="66">You have exceeded your concurrent request limit. Please wait, before trying again</err>\n</rsp>\n)
+
+      lambda { post }.should raise_error(Pardot::ExceededRequestLimitError)
     end
   end
 end

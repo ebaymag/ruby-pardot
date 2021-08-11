@@ -60,6 +60,10 @@ module Pardot
         raise AccessTokenExpiredError.new "Failed to get access token by your credentials. See https://developer.salesforce.com/docs/atlas.en-us.mobile_sdk.meta/mobile_sdk/oauth_refresh_token_flow.htm for more information about auth flow."
       end
 
+      if code == "66"
+        raise ExceededRequestLimitError.new(error["__content__"])
+      end
+
       raise ResponseError.new error if error
       
       rsp
